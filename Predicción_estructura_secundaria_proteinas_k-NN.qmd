@@ -49,11 +49,46 @@ Xoh <-data.frame(predict(dmy, newdata = X))
 table(y)
 ```
 
+```{r}
+set.seed(143)
+trainIndex<- createDataPartition(y, p=0.7, list=FALSE)
+trainX <- Xoh[trainIndex,]
+testX <- Xoh[-trainIndex,]
+trainy <- y[trainIndex]
+testy <- y[-trainIndex]
+```
+
 #### Algoritmo
+
+```{r}
+#| message: false
+#| warning: false
+if(!require(class)){
+  install.packages("class")
+  library(class)
+}
+```
+
+```{r}
+prediction<-knn(train=trainX, test=testX, cl=trainy, k=1)
+```
 
 #### Diseño experimental
 
 #### Métricas de evaluación
+
+```{r}
+#| message: false
+#| warning: false
+if(!require(gmodels)){
+  install.packages("gmodels")
+  library(gmodels)
+}
+```
+
+```{r}
+CrossTable(x = testy, y = prediction, prop.chisq = FALSE)
+```
 
 ### Resultados
 
